@@ -8,3 +8,4 @@ export const START_SB = "START_SMALL_BREAK";
 export const STOP_SB = "STOP_SMALL_BREAK";
 export const START_LB = "START_LONG_BREAK";
 export const STOP_LB = "STOP_LONG_BREAK";
+export const LOAD_INI = "LOAD_INITAIL_DATA";

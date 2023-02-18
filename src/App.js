@@ -6,10 +6,19 @@ import SideContent from './components/SideContent';
 import Splash from './components/Splash';
 import {timerContext} from './context/timerContext';
 import timerReducer from './context/reducer';
-import {useReducer} from 'react';
+import {useReducer, useEffect} from 'react';
+import {LOAD_INI} from './context/action.types';
 
 function App() {
   const [timer_data, dispatch] = useReducer(timerReducer, {});
+  /************************************  
+   * @description: Loading initial Data
+   ************************************/
+  useEffect(()=>{
+    dispatch({
+      type: LOAD_INI
+    })
+  })
   return (
     <timerContext.Provider value={{timer_data, dispatch}}>
       <div className="App">
