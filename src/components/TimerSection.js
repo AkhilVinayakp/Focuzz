@@ -2,6 +2,8 @@ import React from "react";
 import Count from "./CountDown";
 
 const Timer = ()=>{
+
+    
     return(
         <div>
             <div className="card w-auto bg-base-100 shadow-stone-500 shadow-inner">
