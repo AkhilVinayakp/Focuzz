@@ -8,7 +8,7 @@ import Splash from './components/Splash';
 function App() {
   return (
     <div className="App">
-      <Splash></Splash>
+      {/* <Splash></Splash> */}
       <Header></Header>
         <div>
           <div className='flex justify-center mt-32 gap-32'>
