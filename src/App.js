@@ -18,7 +18,7 @@ function App() {
     dispatch({
       type: LOAD_INI
     })
-  })
+  },[]);
   return (
     <timerContext.Provider value={{timer_data, dispatch}}>
       <div className="App">
