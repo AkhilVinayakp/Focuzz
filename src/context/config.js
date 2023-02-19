@@ -4,7 +4,7 @@ export const initialState = {
     "initial_selection": "promodoro"
   },
   "inital_data":{
-    "promoMins": 25,
+    "promoMins": 2,
     "promoSec": 0,
     "timer_selection": "promodoro",
     "isRunning": false

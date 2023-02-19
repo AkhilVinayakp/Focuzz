@@ -11,11 +11,14 @@ import {initialState} from './config';
 const reducer = (state, action) => {
     switch(action.type){
         case UPDATE_MINS:
-            return {...state, "promoMins": state.promoMins-1};
+            return {...state, promoMins: state.promoMins-1};
         case UPDATE_SEC:
-            return {...state, "promoSec": state.promoSec-1};
+            return {...state, promoSec: state.promoSec-1};
         case RESET_SEC:
-            return {...state, "promoSec": 59};
+            if(state.promoMins==0){
+                return {...state, promoSec: 0};   
+            }
+            return {...state, promoSec: 59};
         case STOP_TIMER:
             break;
         case TIMER_RUNSTATUS:
