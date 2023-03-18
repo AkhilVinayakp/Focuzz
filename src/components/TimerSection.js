@@ -67,10 +67,14 @@ const Timer = ()=>{
         setIntervalID(scheduled_timer);
     }
     function changeTimerSelection(selection_index, selection_value){
-    // TODO: allow after alerting. when the timer already running.
+        if(timer_data.isRunning){
+            alert("You are about to switch the timer while it is running. Are you sure")
+            clearInterval(intervelID);
+            dispatch({type: TIMER_RUNSTATUS})
+        }
         setTabselection(selection_index);
         console.log("Swtiching to the selection", selection_index, selection_value);
-
+        
     // dispatching the methods to update the  timer section.
     // TODO: clear the currnent timer before moving forward.
         dispatch({

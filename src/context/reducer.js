@@ -37,11 +37,12 @@ const reducer = (state, action) => {
             }
             break;
         case UPDATETIMERSELECTION:
-            console.log("Updating the section selected");
             const selection_index = action.payload.selection_index;
             let selection_value = action.payload.selection_value;
+            if(selection_index===0){
+                return {...state, promoMins: initialState.inital_data.promoMins, promoSec: initialState.inital_data.promoSec}
+            }
             selection_value = selection_value.trim();
-            console.log("selection value", selection_value)
             return {
                         ...state, 
                         promoMins: initialState.inital_data.config[selection_value].promoMins,
