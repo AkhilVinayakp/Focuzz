@@ -4,6 +4,7 @@ import { LOAD_INI,
         TIMER_RUNSTATUS,
         UPDATE_MINS,
         UPDATE_SEC,
+        UPDATETIMERSELECTION
 
 } from "./action.types";
 import {initialState} from './config';
@@ -34,8 +35,21 @@ const reducer = (state, action) => {
                 // load from the sample data listed.
                 return initialState.inital_data;
             }
-            
             break;
+        case UPDATETIMERSELECTION:
+            const selection_index = action.payload.selection_index;
+            let selection_value = action.payload.selection_value;
+            if(selection_index===0){
+                return {...state, promoMins: initialState.inital_data.promoMins, promoSec: initialState.inital_data.promoSec}
+            }
+            selection_value = selection_value.trim();
+            return {
+                        ...state, 
+                        promoMins: initialState.inital_data.config[selection_value].promoMins,
+                        promoSec: initialState.inital_data.config[selection_value].promoSec,
+                    }
+
+
         default:
             return state;
     }
