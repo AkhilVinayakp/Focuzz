@@ -1,8 +1,8 @@
 export const initialState = {
   "version": "v1.0",
   "inital_data":{
-    "promoMins": 2,
-    "promoSec": 0,
+    "promoMins": 1,
+    "promoSec": 59,
     "isRunning": false,
     "config": {
       "view_options": ["Promodoro", "Short Break", "Long Break"],

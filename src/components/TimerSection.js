@@ -43,6 +43,8 @@ const Timer = ()=>{
         }
         let timer_sec = timer_data.promoSec;
         let timer_min = timer_data.promoMins;
+        // ! why the timer data not getting updated according to the change
+        console.log("timer data :", timer_data);
         scheduled_timer = setInterval(()=>{
             console.log("promosec data:", timer_data.promoSec)
             console.log("control variables :", timer_min, timer_sec);
@@ -53,15 +55,17 @@ const Timer = ()=>{
                 dispatch({type:UPDATE_MINS});
                 dispatch({type:RESET_SEC});
             }
-            else{
+            else if(timer_sec >= 0){
                 timer_sec -= 1;
                 dispatch({type:UPDATE_SEC});
                 console.log("decrease sec.")
             }
-            if(timer_min== 0){
+            if(timer_min === 0 && timer_sec <= 0){
                 clearInterval(scheduled_timer);
                 dispatch({type:RESET_SEC})
                 dispatch({type: TIMER_RUNSTATUS})
+                // alert with a sound and switch it back to short break and start
+
             }
         }, 1000)
         setIntervalID(scheduled_timer);
