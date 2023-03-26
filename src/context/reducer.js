@@ -4,7 +4,8 @@ import { LOAD_INI,
         TIMER_RUNSTATUS,
         UPDATE_MINS,
         UPDATE_SEC,
-        UPDATETIMERSELECTION
+        UPDATETIMERSELECTION,
+        RESET_TIMER
 
 } from "./action.types";
 import {initialState} from './config';
@@ -16,12 +17,11 @@ const reducer = (state, action) => {
         case UPDATE_SEC:
             return {...state, promoSec: state.promoSec-1};
         case RESET_SEC:
-            if(state.promoMins==0){
-                return {...state, promoSec: 0};   
-            }
             return {...state, promoSec: 59};
         case STOP_TIMER:
             break;
+        case RESET_TIMER:
+            return {...state, promoSec: 0, promoMins: 0}
         case TIMER_RUNSTATUS:
             return {...state, "isRunning": !state.isRunning}
         case LOAD_INI:

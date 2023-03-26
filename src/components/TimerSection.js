@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Count from "./CountDown";
 import { timerContext } from "../context/timerContext";
-import { TIMER_RUNSTATUS, UPDATE_MINS, UPDATE_SEC, RESET_SEC, UPDATETIMERSELECTION } from "../context/action.types";
+import { TIMER_RUNSTATUS, UPDATE_MINS, UPDATE_SEC, RESET_SEC, UPDATETIMERSELECTION, RESET_TIMER } from "../context/action.types";
 
 const Timer = ()=>{
     const {timer_data, dispatch}  = useContext(timerContext);
@@ -48,7 +48,7 @@ const Timer = ()=>{
         scheduled_timer = setInterval(()=>{
             console.log("promosec data:", timer_data.promoSec)
             console.log("control variables :", timer_min, timer_sec);
-            if(timer_sec==0){
+            if(timer_sec==0 && timer_min !=0){
                 console.log("resenting the sec and updating mins");
                 timer_min -= 1;
                 timer_sec = 59;
@@ -62,9 +62,10 @@ const Timer = ()=>{
             }
             if(timer_min === 0 && timer_sec <= 0){
                 clearInterval(scheduled_timer);
-                dispatch({type:RESET_SEC})
+                dispatch({type:RESET_TIMER})
                 dispatch({type: TIMER_RUNSTATUS})
                 // alert with a sound and switch it back to short break and start
+                
 
             }
         }, 1000)
