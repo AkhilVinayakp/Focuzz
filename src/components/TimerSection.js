@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import Count from "./CountDown";
 import { timerContext } from "../context/timerContext";
 import { TIMER_RUNSTATUS, UPDATE_MINS, UPDATE_SEC, RESET_SEC, UPDATETIMERSELECTION, RESET_TIMER } from "../context/action.types";
+import { playSwitchTone } from "../services/audioHandler";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
 
 const Timer = ()=>{
     const {timer_data, dispatch}  = useContext(timerContext);
@@ -14,6 +17,18 @@ const Timer = ()=>{
     let scheduled_timer;
     return(
         <div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="card w-auto bg-base-100 shadow-stone-500 shadow-inner">
                 <div className="px-3 tabs w-full">
                     {
@@ -64,9 +79,7 @@ const Timer = ()=>{
                 clearInterval(scheduled_timer);
                 dispatch({type:RESET_TIMER})
                 dispatch({type: TIMER_RUNSTATUS})
-                // alert with a sound and switch it back to short break and start
-                
-
+                switchTab();
             }
         }, 1000)
         setIntervalID(scheduled_timer);
@@ -91,8 +104,31 @@ const Timer = ()=>{
         })
 
     }
-
-
+    /************************************  
+     * @description: funtion used to switch the tab automatially,
+     * from the given to the desired one set by the user
+     * example. switching from promoSec -> short break
+     *                  short break -> promosec
+     * corresponding break option set by the user, in the config file.
+     ************************************/
+    function switchTab(){
+        playSwitchTone();
+        const resolveSwitching = new Promise(resolve=>{
+            setTimeout(resolve, 1000);
+            let current_tab = timer_data.config.current_selection_id;
+            if(current_tab === 0){
+                // switching from the promoTimer to desired break timer.
+                const break_option = timer_data.config.break_option_id;
+                changeTimerSelection(break_option, timer_data.config.view_options[break_option])
+                console.log("switching to the option automatically :", break_option)
+            }
+        })
+        toast.promise(resolveSwitching,{
+            pending: "Switching ⏲️",
+            success: "Starting the timer ⏳",
+            error: "ohhh something gone wrong 🥵"
+        });
+    }
 }
 
 export default Timer;
