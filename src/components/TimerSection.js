@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Count from "./CountDown";
 import { timerContext } from "../context/timerContext";
 import { TIMER_RUNSTATUS, UPDATE_MINS, UPDATE_SEC, RESET_SEC, UPDATETIMERSELECTION, RESET_TIMER } from "../context/action.types";
@@ -33,7 +33,7 @@ const Timer = ()=>{
                 <div className="px-3 tabs w-full">
                     {
                         view_options.map((option, index)=>(
-                            <a  className={tabSelection== index ? opt_style_selected : opt_style_default} key={index} onClick={event=>changeTimerSelection(index, option)} value={option}>{option}</a>
+                            <a  className={tabSelection === index ? opt_style_selected : opt_style_default} key={index} onClick={event=>changeTimerSelection(index, option)} value={option}>{option}</a>
                         ))
                     }
                 </div>
@@ -58,12 +58,10 @@ const Timer = ()=>{
         }
         let timer_sec = timer_data.promoSec;
         let timer_min = timer_data.promoMins;
-        // ! why the timer data not getting updated according to the change
         console.log("timer data :", timer_data);
         scheduled_timer = setInterval(()=>{
-            console.log("promosec data:", timer_data.promoSec)
             console.log("control variables :", timer_min, timer_sec);
-            if(timer_sec==0 && timer_min !=0){
+            if(timer_sec === 0 && timer_min !== 0){
                 console.log("resenting the sec and updating mins");
                 timer_min -= 1;
                 timer_sec = 59;
@@ -84,7 +82,13 @@ const Timer = ()=>{
         }, 1000)
         setIntervalID(scheduled_timer);
     }
-    function changeTimerSelection(selection_index, selection_value){
+    /************************************  
+     * @description: function to change the timer selection
+     * @param {boolean} [autoStart=false] - Check for starting the timer automatically. used for automatic timer switching.
+     * @param {Number} selection_index - index of view. view defined in the config file
+     * @param {String} selection_value - Value corresponding to the index. Defined in the config file.
+     ************************************/
+    function changeTimerSelection(selection_index, selection_value, autoStart=false){
         if(timer_data.isRunning){
             alert("You are about to switch the timer while it is running. Are you sure")
             clearInterval(intervelID);
@@ -101,7 +105,18 @@ const Timer = ()=>{
                 selection_index,
                 selection_value
             }
-        })
+        });
+        // !!! Testing. check the state 
+        console.log("checking the state :", timer_data);
+    // check for autoStart
+        console.log("auto starting:", autoStart)
+        if(autoStart){
+            console.log("auto starting the selected timer.")
+            setTimeout(()=>{
+                console.log("starting after 1.2 sec");
+                startTimer()
+            },1200)
+        }
 
     }
     /************************************  
@@ -119,7 +134,7 @@ const Timer = ()=>{
             if(current_tab === 0){
                 // switching from the promoTimer to desired break timer.
                 const break_option = timer_data.config.break_option_id;
-                changeTimerSelection(break_option, timer_data.config.view_options[break_option])
+                changeTimerSelection(break_option, timer_data.config.view_options[break_option], true)
                 console.log("switching to the option automatically :", break_option)
             }
         })
