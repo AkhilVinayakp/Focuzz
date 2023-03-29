@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import Count from "./CountDown";
 import { timerContext } from "../context/timerContext";
 import { TIMER_RUNSTATUS, UPDATE_MINS, UPDATE_SEC, RESET_SEC, UPDATETIMERSELECTION, RESET_TIMER } from "../context/action.types";
@@ -15,6 +15,8 @@ const Timer = ()=>{
     const opt_style_default = "promotab tab tab-lg tab-lifted"
     const opt_style_selected = "promotab tab tab-lg tab-lifted tab-active"
     let scheduled_timer;
+    const timerState = useRef();
+    timerState.current = timer_data;
     return(
         <div>
             <ToastContainer
@@ -56,8 +58,8 @@ const Timer = ()=>{
             clearInterval(intervelID);
             return;
         }
-        let timer_sec = timer_data.promoSec;
-        let timer_min = timer_data.promoMins;
+        let timer_sec = timerState.current.promoSec;
+        let timer_min = timerState.current.promoMins;
         console.log("timer data :", timer_data);
         scheduled_timer = setInterval(()=>{
             console.log("control variables :", timer_min, timer_sec);
@@ -79,6 +81,7 @@ const Timer = ()=>{
                 dispatch({type: TIMER_RUNSTATUS})
                 switchTab();
             }
+            console.log('data in parent component using useRef:', timerState.current);
         }, 1000)
         setIntervalID(scheduled_timer);
     }
@@ -147,3 +150,9 @@ const Timer = ()=>{
 }
 
 export default Timer;
+
+// ! bug:
+/************************************  
+ * @description: state in the file is on the default value when initailizing.
+ * https://www.youtube.com/watch?v=awGFsGc9oCM
+ ************************************/
