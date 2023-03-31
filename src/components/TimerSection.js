@@ -81,7 +81,6 @@ const Timer = ()=>{
                 dispatch({type: TIMER_RUNSTATUS})
                 switchTab();
             }
-            console.log('data in parent component using useRef:', timerState.current);
         }, 1000)
         setIntervalID(scheduled_timer);
     }
@@ -101,7 +100,6 @@ const Timer = ()=>{
         console.log("Swtiching to the selection", selection_index, selection_value);
         
     // dispatching the methods to update the  timer section.
-    // TODO: clear the currnent timer before moving forward.
         dispatch({
             type: UPDATETIMERSELECTION,
             payload: {
@@ -133,12 +131,17 @@ const Timer = ()=>{
         playSwitchTone();
         const resolveSwitching = new Promise(resolve=>{
             setTimeout(resolve, 1000);
-            let current_tab = timer_data.config.current_selection_id;
+            let current_tab = timerState.current.config.current_selection_id;
             if(current_tab === 0){
                 // switching from the promoTimer to desired break timer.
                 const break_option = timer_data.config.break_option_id;
+                // break option set by the user default configuratio is to short break
                 changeTimerSelection(break_option, timer_data.config.view_options[break_option], true)
                 console.log("switching to the option automatically :", break_option)
+            }
+            else if(current_tab === 1 || current_tab === 2){
+                // switching to the promodoro when the current tab is either break option
+                changeTimerSelection(0, timer_data.config.view_options[0], true)
             }
         })
         toast.promise(resolveSwitching,{
@@ -150,9 +153,3 @@ const Timer = ()=>{
 }
 
 export default Timer;
-
-// ! bug:
-/************************************  
- * @description: state in the file is on the default value when initailizing.
- * https://www.youtube.com/watch?v=awGFsGc9oCM
- ************************************/

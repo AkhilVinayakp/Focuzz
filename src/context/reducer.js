@@ -40,16 +40,25 @@ const reducer = (state, action) => {
             const selection_index = action.payload.selection_index;
             let selection_value = action.payload.selection_value;
             if(selection_index===0){
-                return {...state, promoMins: initialState.inital_data.promoMins, promoSec: initialState.inital_data.promoSec}
+                return {...state, 
+                    promoMins: initialState.inital_data.promoMins, 
+                    promoSec: initialState.inital_data.promoSec,
+                    config: {...state.config, 
+                        current_selection_id: selection_index
+                    }
+                }
             }
             selection_value = selection_value.trim();
             return {
                         ...state, 
                         promoMins: initialState.inital_data.config[selection_value].promoMins,
                         promoSec: initialState.inital_data.config[selection_value].promoSec,
+                        config: {...state.config, 
+                            current_selection_id: selection_index
+                        }
                     }
 
-
+                    
         default:
             return state;
     }
