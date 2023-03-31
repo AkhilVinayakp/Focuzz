@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { timerContext } from "../context/timerContext";
 
 const Count = () =>{
-    const {timer_data, dispatch} = useContext(timerContext);
-    console.log(timer_data)
+    const {timer_data} = useContext(timerContext);
+    console.log("inside the timer", timer_data)
     return(
         <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
                 <div className="flex flex-col p-8 bg-neutral rounded-box text-neutral-content">

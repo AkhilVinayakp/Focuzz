@@ -5,8 +5,8 @@ import { LOAD_INI,
         UPDATE_MINS,
         UPDATE_SEC,
         UPDATETIMERSELECTION,
-        RESET_TIMER
-
+        RESET_TIMER,
+        ADD_TASK
 } from "./action.types";
 import {initialState} from './config';
 
@@ -58,7 +58,11 @@ const reducer = (state, action) => {
                         }
                     }
 
-                    
+            break;
+        case ADD_TASK:
+            state.tasks.push("Yet another task")
+            console.log("pushing new task: ", state.tasks)
+            return state;
         default:
             return state;
     }
