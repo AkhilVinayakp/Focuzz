@@ -6,7 +6,8 @@ import { LOAD_INI,
         UPDATE_SEC,
         UPDATETIMERSELECTION,
         RESET_TIMER,
-        ADD_TASK
+        ADD_TASK,
+        REMOVE_TASK
 } from "./action.types";
 import {initialState} from './config';
 
@@ -61,8 +62,18 @@ const reducer = (state, action) => {
             break;
         case ADD_TASK:
             state.tasks.push("Yet another task")
-            console.log("pushing new task: ", state.tasks)
-            return state;
+            return {
+                ...state,
+                length: state.tasks.length
+            }
+            break;
+        case REMOVE_TASK:
+            const deleteIndex = action.payload.index;
+            state.tasks.splice(deleteIndex, 1);
+            return {
+                ...state,
+                length: state.tasks.length
+            }
         default:
             return state;
     }

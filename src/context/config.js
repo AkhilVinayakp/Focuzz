@@ -19,6 +19,7 @@ export const initialState = {
       }
      
     },
-    "tasks":["initail task"]
+    "tasks":["initail task"],
+    "length": 1
   }
 }
