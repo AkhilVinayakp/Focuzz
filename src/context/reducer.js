@@ -77,7 +77,6 @@ const reducer = (state, action) => {
             }
             break;
         case UPDATE_TASK:
-            console.log("updating the task");
             const index = action.payload.index;
             const value = action.payload.value;
             state.tasks.splice(index,1,value);

@@ -60,11 +60,8 @@ const Timer = ()=>{
         }
         let timer_sec = timerState.current.promoSec;
         let timer_min = timerState.current.promoMins;
-        console.log("timer data :", timer_data);
         scheduled_timer = setInterval(()=>{
-            console.log("control variables :", timer_min, timer_sec);
             if(timer_sec === 0 && timer_min !== 0){
-                console.log("resenting the sec and updating mins");
                 timer_min -= 1;
                 timer_sec = 59;
                 dispatch({type:UPDATE_MINS});
@@ -73,7 +70,6 @@ const Timer = ()=>{
             else if(timer_sec >= 0){
                 timer_sec -= 1;
                 dispatch({type:UPDATE_SEC});
-                console.log("decrease sec.")
             }
             if(timer_min === 0 && timer_sec <= 0){
                 clearInterval(scheduled_timer);
@@ -97,7 +93,6 @@ const Timer = ()=>{
             dispatch({type: TIMER_RUNSTATUS})
         }
         setTabselection(selection_index);
-        console.log("Swtiching to the selection", selection_index, selection_value);
         
     // dispatching the methods to update the  timer section.
         dispatch({
@@ -107,14 +102,9 @@ const Timer = ()=>{
                 selection_value
             }
         });
-        // !!! Testing. check the state 
-        console.log("checking the state :", timer_data);
     // check for autoStart
-        console.log("auto starting:", autoStart)
         if(autoStart){
-            console.log("auto starting the selected timer.")
             setTimeout(()=>{
-                console.log("starting after 1.2 sec");
                 startTimer()
             },1200)
         }
@@ -137,7 +127,6 @@ const Timer = ()=>{
                 const break_option = timer_data.config.break_option_id;
                 // break option set by the user default configuratio is to short break
                 changeTimerSelection(break_option, timer_data.config.view_options[break_option], true)
-                console.log("switching to the option automatically :", break_option)
             }
             else if(current_tab === 1 || current_tab === 2){
                 // switching to the promodoro when the current tab is either break option
